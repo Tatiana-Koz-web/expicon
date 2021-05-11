@@ -1,18 +1,31 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <CursorCircle />
+    <Cursor />
+    <Slider />
+    <RedScreen />
+    <YelowScreen />
+    <BlackScreen />
+    <Footer />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import CursorCircle from "@/components/CursorCircle.vue";
+import Slider from "@/components/Slider.vue";
+import RedScreen from "@/components/RedScreen.vue";
+import YelowScreen from "@/components/YelowScreen.vue";
+import BlackScreen from "@/components/BlackScreen.vue";
+import Footer from "@/components/Footer.vue";
 export default {
-  name: 'Home',
+  name: "FormRoute",
   components: {
-    HelloWorld
-  }
-}
+    CursorCircle,
+    Slider,
+    RedScreen,
+    YelowScreen,
+    BlackScreen,
+    Footer,
+  },
+};
 </script>

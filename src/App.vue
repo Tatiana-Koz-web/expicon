@@ -1,32 +1,62 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
+<script>
+export default {
+  name: "App",
+  components: {},
+};
+</script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400;700&display=swap');
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0 ;
+  margin: 0;
 }
 
-#nav {
-  padding: 30px;
+html,
+body {
+  background-color: #191919;
+  
+}
+#app {
+  font-family: Helvetica,'Merriweather Sans', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #fff;  
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.container {
+  width: 100%;
+  max-width: 1920px;
+  margin: 0 auto;  
+  @media (max-width: 1920px) {
+    max-width: 1600px;
   }
+  @media (max-width: 1600px) {
+    max-width: 1300px;
+  }
+  @media (max-width: 1300px) {
+    max-width: 1200px;
+  }
+  @media (max-width: 960px) {
+    max-width: 100%;
+  }
+  @keyframes mix {
+  to {
+    background-position: 50vw;
+  }
+}
 }
 </style>
