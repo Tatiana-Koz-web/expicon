@@ -113,41 +113,6 @@ export default {
   z-index: 20;
 }
 
-.try-btn {
-  outline: 0;
-  color: #fff;
-  border: 0;
-  border-radius: 79px;
-  font-size: 1.5rem;
-  font-weight: 400;
-  max-width: 284px;
-  padding: 1.8rem 3rem;
-  background: linear-gradient(
-    90deg,
-    #1fe1e9 0%,
-    #5e33d1 20%,
-    #d34848 55%,
-    #ffb33f 75%,
-    #1fe1e9 100%
-  );
-  margin: 3rem;
-  text-transform: uppercase;
-  transition: all 5ms ease-in-out;
-  animation: mix 30s linear infinite alternate;
-  letter-spacing: 2.3px;
-  &:hover,
-  &:focus {
-    background: linear-gradient(
-      90deg,
-      #26f1f8 0%,
-      #4b0afd 20%,
-      #fa0404 55%,
-      #fc9b0b 75%,
-      #13eff7 100%
-    );
-  }
-}
-
 @keyframes mix {
   to {
     background-position: 50vw;
