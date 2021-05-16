@@ -1,8 +1,14 @@
 <template>
-  <div class="yelowScreen-root">
-    <Head />
-    <canvas id="canvas"></canvas>
-    <div class="caption">
+  <div class="yellow>">
+    <div class="root">
+      <Head />
+       <canvas id="canvas" @mousemove="circleClip" width="1920" height="1080"></canvas>
+      <div class="slider" id="slider">       
+        <div class="slider-items">
+          <img :src="bgCanvas" id="img" :alt="bgCanvas" />
+        </div>
+      </div>
+      <!-- <div class="caption">
       <h1 class="title">FRONT ROW SEATS</h1>
       <p class="description">Experience live versions of your favourite songs.</p>
       <button class="btn">SEE DEMO</button>
@@ -10,13 +16,14 @@
     <div class="mask"></div>
     <button class="btn try-btn" @click="$router.push('/pricing').catch(() => {})">
       TRY IT NOW
-    </button>
+    </button> -->
+    </div>
   </div>
 </template>
 
 <script>
 import Head from "./Head.vue";
-
+import bg from "../assets/yellowBg.png";
 export default {
   name: "YellowScreen",
   props: {
@@ -27,45 +34,84 @@ export default {
   },
   data() {
     return {
-      vueCanvas: null,
+      canvas: null,
+      ctx: null,
+      bgCanvas: bg,
+      heightRatio: 1.7,      
     };
   },
   mounted() {
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
-    this.vueCanvas = ctx;
-    canvas.height = window.innerHeight;
-    canvas.width = window.innerWidth;
+    this.canvas = document.getElementById("canvas");
+    this.ctx = this.canvas.getContext("2d");    
+    this.circleClip();
   },
-   methods: {
-    drawRect() {
-      // clear canvas
-      this.vueCanvas.clearRect(0, 0, 400, 200);
-      
-      // draw rect
-      this.vueCanvas.beginPath();
-      this.vueCanvas.rect(20, 20, this.rectWidth, 100);
-      this.vueCanvas.stroke();      
+  methods: {    
+    circleClip: function () {
+      const img = document.getElementById("img");
+      const pi2 = Math.PI * 2;
+      const data = [
+        { x: 600, y: 340, r: 180 },
+        { x: 370, y: 670, r: 270 },
+        { x: 1810, y: 996, r: 285 },
+      ];
+      this.ctx.beginPath();
+      for (var i = 0; i < data.length; i++) {
+        const p = data[i],
+          x = p.x,
+          y = p.y,
+          r = p.r;
+        this.ctx.moveTo(x + r, y); // This was the line you were looking for
+        this.ctx.arc(x, y, r, 0, pi2);
+      } 
+      this.ctx.closePath();
+      this.ctx.clip();
+      this.ctx.drawImage(img, 0, 0);
     },
     addWidth() {
-      this.rectWidth += 10
-      this.drawRect()
+      this.rectWidth += 10;
+      this.drawRect();
+    },
+    drawRect: function () {
+      const drawImagebg = document.getElementById("img");
+      const pi2 = Math.PI * 2;
+      const data = [
+        { x: 1810, y: 930, r: 220 },
+        { x: 630, y: 380, r: 190 },
+        { x: 420, y: 660, r: 270 },
+      ];
+      this.ctx.beginPath();
+      for (var i = 0; i < data.length; i++) {
+        const p = data[i],
+          x = p.x,
+          y = p.y,
+          r = p.r;
+        this.ctx.moveTo(x + r, y); // This was the line you were looking for
+        this.ctx.arc(x, y, r, 0, pi2);
+      }
+
+      this.ctx.clip();
+      this.ctx.drawImage(drawImagebg, 0, 0);
     },
     subWidth() {
-      this.rectWidth -= 10
-      this.drawRect()      
-    }
+      this.rectWidth -= 10;
+      this.drawRect();
+    },
   },
   computed: {},
 };
 </script>
 
 <style lang="scss" scoped>
-.yelowScreen-root {
-  position: relative;
-  display: flex;
-  justify-content: flex-end;
+.yellow {
   background-color: #ffb33f;
+}
+.root {
+  position: relative;
+  background-color: inherit;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  width: 100%;
   overflow: hidden;
 }
 
@@ -182,13 +228,37 @@ export default {
     margin: 0 auto;
   }
 }
-
-img {
-  object-fit: contain;
+.slider {
+  position: relative;
   width: 100%;
+  overflow: hidden;
+  .slider-items {
+    position: relative;
+    button {
+      border: 1px solid #fff;
+      border-radius: 50%;
+      width: 1rem;
+      height: 1rem;
+      margin: 0.3rem;
+      background-color: transparent;
+      &:hover {
+        background-color: #fff;
+      }
+    }
+    img {
+      display: block;      
+      width: 100%;
+      height: 1080px;
+      object-fit: cover;
+    }
+  }
 }
 #canvas {
-  width: 1920px;
+  position: absolute;  
+  z-index: 40;
+  width: 100%;
   height: 1080px;
+  background-color:  #ffb33f;
+  object-fit: cover;  
 }
 </style>
