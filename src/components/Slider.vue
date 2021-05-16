@@ -1,22 +1,27 @@
 <template>
-  <div class="slider-root">
+  <div class="root">
     <Head />
-    <VueSlickCarousel class="slider" :autoplaySpeed="10000" :dots="true" :autoplay="true">
-      <img :src="images[0]" />
-      <img :src="images[1]" />
-      <img :src="images[2]" />
-    </VueSlickCarousel>
-    <div class="caption">
-      <h1 class="title">INTERACTIVE CONCERT EXPERIENCE</h1>
-      <div class="description">
-        <p>
-          Experience your favourite artists like never before and from the comfort of your
-          own home.
-        </p>
+    <div class="slider" id="slider">
+      <div class="slider-items">
+        <img :src="currentImg" id="sliderImg" />
+        <div class="pagination">
+          <button @click="next(0)"></button>
+          <button @click="next(1)"></button>
+          <button @click="next(2)"></button>
+        </div>
       </div>
-      <button class="try-btn" @click="$router.push('/pricing').catch(() => {})">
-        TRY IT NOW
-      </button>
+      <div class="caption">
+        <div class="wrap">
+          <h1 class="title">INTERACTIVE CONCERT EXPERIENCE</h1>
+          <p>
+            Experience your favourite artists like never before and from the comfort of
+            your own home.
+          </p>
+          <button class="try-btn" @click="$router.push('/pricing').catch(() => {})">
+            TRY IT NOW
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -26,115 +31,163 @@ import Head from "./Head.vue";
 import image1 from "../assets/image1.png";
 import image2 from "../assets/image2.png";
 import image3 from "../assets/image3.png";
-import VueSlickCarousel from "vue-slick-carousel";
-import "vue-slick-carousel/dist/vue-slick-carousel.css";
-import "vue-slick-carousel/dist/vue-slick-carousel-theme.css";
-
+import dissImg from "../assets/diss.png";
+import blackImg from "../assets/black.png";
+import anime from "animejs/lib/anime.es.js";
+// import VueSlickCarousel from "vue-slick-carousel";
+// import "vue-slick-carousel/dist/vue-slick-carousel.css";
+import HoverEffect from "hover-effect";
 export default {
   name: "Slider",
-  components: { VueSlickCarousel, Head },
+  components: { Head },
   data() {
     return {
       images: [image1, image2, image3],
-      timer: null,
+      hoverDistort: null,
+      blackImg: blackImg,
+      diss: dissImg,
+      toggle: false,
+      timeline: null,
       currentIndex: 0,
+      timer: null,
     };
   },
   mounted: function () {
     this.startSlide();
-  },
-  methods: {
-    startSlide: function () {
-      this.timer = setInterval(this.next, 2000000);
-    },
-    next: function () {
-      this.currentIndex += 1;
-    },
   },
   computed: {
     currentImg: function () {
       return this.images[Math.abs(this.currentIndex) % this.images.length];
     },
   },
+
+  methods: {
+    startSlide: function () {
+      this.timer = setInterval(() => {
+        this.next();
+      }, 4000);
+    },
+    hover: function (i) {
+      this.hoverDistort = new HoverEffect({
+        parent: document.getElementById("slider"),
+        intensity: 0.2,
+        image1: this.images[i],
+        image2: this.blackImg,
+        displacementImage: this.diss,
+      });
+    },
+    next: function () {
+      this.currentIndex += 1;
+    },
+    sliderAnimation: function (i) {
+      this.timeline = anime.timeline({
+        easing: "easeOutExpo",
+        duration: 750,
+      });
+      this.timeline.add({
+        targets: ".mask",
+        src: [
+          {
+            value: this.images[i],
+          },
+        ],
+      });
+    },
+  },
 };
 </script>
-
-<style lang="scss">
-.slick-dots {
-  bottom: 50px;
-  button {
-    &::before {
-      content: "" !important;
-      border: 1px solid #fff;
-      border-radius: 50%;
-      opacity: 1 !important;
-    }
-  }
-}
-.slick-active {
-  button {
-    &::before {
-      background: #ffffff;
-    }
-  }
-}
-</style>
-
 <style lang="scss" scoped>
-.slider-root {
+.root {
   position: relative;
+  padding: 0;
+  width: 100%;
+  height: 1080px;
+}
+.slider {
+  position: relative;
+  width: 100%;
   overflow: hidden;
-  @media (max-width: 900px) {
-    min-height: 1000px;
+  .slider-items {
+    position: relative;
+    .pagination {
+      position: absolute;
+      bottom: 2rem;
+      z-index: 35;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      button {
+        border: 1px solid #fff;
+        border-radius: 50%;
+        width: 1rem;
+        height: 1rem;
+        margin: 0.3rem;
+        background-color: transparent;
+        &:hover {
+          background-color: #fff;
+        }
+      }
+    }
+    img {
+      display: block;
+      width: 100%;
+      filter: brightness(60%);
+      height: 1080px;
+      object-fit: cover;
+    }
   }
 }
 .caption {
-  text-align: center;
-  z-index: 10;
   position: absolute;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  top: 65%;
-  transform: translateY(-65%);
-  max-width: 1300px;
-  margin: 0 auto;
-  right: 0;
   left: 0;
-  @media (max-width: 900px) {
-    max-width: 800px;
-    top: 85%;    
-    padding: .5rem;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  padding-top: 4rem;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #fff;  
+  .wrap {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    h1 {      
+      font-size: 4rem;
+      letter-spacing: 6.5px;
+      font-weight: 600;
+      transition: all 5ms ease-in-out;
+      @media (max-width: 1200px) {
+        font-size: 3rem;
+      }
+    }
+    p {
+      font-size: 2rem;     
+      letter-spacing: 3.2px;
+      font-weight: 400; 
+      width: 50%;   
+      padding:  2rem 0;
+      transition: all 5ms ease-in-out;  
+      @media (max-width: 1200px) {
+        font-size: 1.4rem;
+      }
+    }
   }
 }
-.title {
-  font-size: 3.6rem;
-  letter-spacing: 5.5px;
-  font-weight: 600;
-  @media (max-width: 1200px) {
-    font-size: 2.4rem;
-  }
-}
-.description {
-  font-size: 32px;
-  padding-top: 2rem;
-  letter-spacing: 3.2px;
-  max-width: 70%;
-  @media (max-width: 1200px) {
-    font-size: 1.4rem;
-    max-width: 60%;
-  }
-}
+
 .try-btn {
   outline: 0;
   color: #fff;
   border: 0;
   border-radius: 79px;
-  font-size: 1.5rem;
-  font-weight: 400;
-  max-width: 284px;
-  padding: 1.8rem 3rem;
+  font-size: 1.4rem;
+  letter-spacing: 2.3px;
+  font-weight: 600;  
+  padding: 1.6rem 4.1rem;
   background: linear-gradient(
     90deg,
     #1fe1e9 0%,
@@ -142,8 +195,7 @@ export default {
     #d34848 55%,
     #ffb33f 75%,
     #1fe1e9 100%
-  );
-  margin: 3rem;
+  );  
   text-transform: uppercase;
   transition: all 5ms ease-in-out;
   animation: mix 30s linear infinite alternate;
@@ -160,17 +212,9 @@ export default {
     );
   }
 }
-
 @keyframes mix {
   to {
     background-position: 50vw;
   }
-}
-
-
-img {
-  display: block;
-  margin: 0 auto;
-  max-width: 100%;
 }
 </style>

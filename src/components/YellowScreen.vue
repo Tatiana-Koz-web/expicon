@@ -1,6 +1,7 @@
 <template>
   <div class="yelowScreen-root">
     <Head />
+    <canvas id="canvas"></canvas>
     <div class="caption">
       <h1 class="title">FRONT ROW SEATS</h1>
       <p class="description">Experience live versions of your favourite songs.</p>
@@ -17,7 +18,7 @@
 import Head from "./Head.vue";
 
 export default {
-  name: "YelowScreen",
+  name: "YellowScreen",
   props: {
     msg: String,
   },
@@ -25,10 +26,36 @@ export default {
     Head,
   },
   data() {
-    return {};
+    return {
+      vueCanvas: null,
+    };
   },
-
-  methods: {},
+  mounted() {
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    this.vueCanvas = ctx;
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+  },
+   methods: {
+    drawRect() {
+      // clear canvas
+      this.vueCanvas.clearRect(0, 0, 400, 200);
+      
+      // draw rect
+      this.vueCanvas.beginPath();
+      this.vueCanvas.rect(20, 20, this.rectWidth, 100);
+      this.vueCanvas.stroke();      
+    },
+    addWidth() {
+      this.rectWidth += 10
+      this.drawRect()
+    },
+    subWidth() {
+      this.rectWidth -= 10
+      this.drawRect()      
+    }
+  },
   computed: {},
 };
 </script>
@@ -59,7 +86,7 @@ export default {
     mask-image: url(../assets/mask900.svg);
   }
   @media (max-width: 600px) {
-    background-image: none;    
+    background-image: none;
   }
 }
 
@@ -159,5 +186,9 @@ export default {
 img {
   object-fit: contain;
   width: 100%;
+}
+#canvas {
+  width: 1920px;
+  height: 1080px;
 }
 </style>

@@ -1,12 +1,11 @@
 <template>
-  <div>
+  <div class="container">
     <CursorCircle />
-    <Cursor />
-    <Slider />
-    <RedScreen />
-    <YelowScreen />
-    <BlackScreen />
-    <Footer />
+    <Slider/>
+    <RedScreen/>
+    <YellowScreen/>
+    <BlackScreen/>
+    <Footer/>
   </div>
 </template>
 
@@ -14,7 +13,7 @@
 import CursorCircle from "@/components/CursorCircle.vue";
 import Slider from "@/components/Slider.vue";
 import RedScreen from "@/components/RedScreen.vue";
-import YelowScreen from "@/components/YelowScreen.vue";
+import YellowScreen from "@/components/YellowScreen.vue";
 import BlackScreen from "@/components/BlackScreen.vue";
 import Footer from "@/components/Footer.vue";
 export default {
@@ -23,9 +22,19 @@ export default {
     CursorCircle,
     Slider,
     RedScreen,
-    YelowScreen,
+    YellowScreen,
     BlackScreen,
     Footer,
   },
 };
 </script>
+<style lang="scss">
+.container {  
+  width: 1920px;
+  max-width: 100%; 
+  margin: 0 auto;
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center;   
+}
+</style>
