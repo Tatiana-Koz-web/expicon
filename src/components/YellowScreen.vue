@@ -1,11 +1,11 @@
 <template>
   <div class="yellow>">
     <div class="root">
-      <Head color="#FFB33F"/>
-       <canvas id="canvas" @mousemove="circleClip" width="1920" height="1080"></canvas>
-      <div class="slider" id="slider">       
+      <Head color="#FFB33F" />
+      <canvas id="canvas" @mousemove="circleClip" width="1920" height="1080"></canvas>
+      <div class="slider" id="slider">
         <div class="slider-items">
-          <img :src="bgCanvas" id="img" :alt="bgCanvas" />
+          <img :src="bgCanvas" id="img" :alt="bgCanvas" v-on:load="circleClip" />
         </div>
       </div>
       <!-- <div class="caption">
@@ -37,17 +37,19 @@ export default {
       canvas: null,
       ctx: null,
       bgCanvas: bg,
-      heightRatio: 1.7,      
+      heightRatio: 1.7,
     };
   },
   mounted() {
     this.canvas = document.getElementById("canvas");
-    this.ctx = this.canvas.getContext("2d");    
+    this.ctx = this.canvas.getContext("2d");
     this.circleClip();
   },
-  methods: {    
-    circleClip: function () {
+  methods: {
+    
+    circleClip: function () { 
       const img = document.getElementById("img");
+      
       const pi2 = Math.PI * 2;
       const data = [
         { x: 600, y: 340, r: 180 },
@@ -62,10 +64,10 @@ export default {
           r = p.r;
         this.ctx.moveTo(x + r, y); // This was the line you were looking for
         this.ctx.arc(x, y, r, 0, pi2);
-      } 
+      }
       this.ctx.closePath();
       this.ctx.clip();
-      this.ctx.drawImage(img, 0, 0);
+      this.ctx.drawImage(img, 0, 0);     
     },
     addWidth() {
       this.rectWidth += 10;
@@ -246,7 +248,7 @@ export default {
       }
     }
     img {
-      display: block;      
+      display: block;
       width: 100%;
       height: 1080px;
       object-fit: cover;
@@ -254,11 +256,14 @@ export default {
   }
 }
 #canvas {
-  position: absolute;  
-  z-index: 40;
-  width: 100%;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;  
   height: 1080px;
-  background-color:  #ffb33f;
-  object-fit: cover;  
+  background-color: #ffb33f;
+  object-fit: cover;
 }
 </style>

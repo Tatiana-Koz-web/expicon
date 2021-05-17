@@ -1,6 +1,6 @@
 <template>
   <div class="root">
-    <Head />
+    <Head color="#5E33D1"/>
     <div class="slider" id="slider">
       <div class="slider-items">
         <img :src="currentImg" id="sliderImg" />
@@ -180,6 +180,7 @@ export default {
 }
 
 .try-btn {
+  cursor: pointer;
   outline: 0;
   color: #fff;
   border: 0;

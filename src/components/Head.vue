@@ -43,7 +43,7 @@
         </svg>
       </div>
       <div class="burger"></div>
-      <div class="sun-nav">
+      <div class="sun-nav" :style="[isColor ? { display: 'none' } : { display: 'block' }]">
         <p :style="[isColor ? '' : { color: color }]">WHAT IS IT</p>
         <p :style="[isColor ? '' : { color: '#fff' }]">PERKS</p>
         <p :style="[isColor ? '' : { color: '#fff' }]">PRICING</p>
@@ -77,19 +77,10 @@ export default {
         easing: "easeOutExpo",
         duration: 400,
       });
-      this.timeline
-        // .add({
-        //   targets: ".logo",
-        //   color: this.isShow ? color : "#fff",
-        // })        
-        .add({
-          targets: ".close",
-          d: [{ value: this.isShow ? this.openPath : this.closePath }],
-        })
-        .add({
-          targets: ".sun-nav",
-          opacity:  this.isShow ? "1" :  "0",          
-        })
+      this.timeline.add({
+        targets: ".close",
+        d: [{ value: this.isShow ? this.openPath : this.closePath }],
+      });
       if (!this.isShow) {
         this.isShow = true;
         this.isColor = true;
@@ -149,8 +140,7 @@ button {
   margin-right: 2rem;
 }
 .sun-nav {
-  position: absolute; 
-  opacity: 0; 
+  position: absolute;  
   top: 175px;
   left: 83px;
   text-align: left;

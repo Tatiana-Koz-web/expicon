@@ -8,13 +8,15 @@
           <p>Experience live versions of your favourite songs.</p>
           <button>SEE DEMO</button>
         </div>
-        <div class="right">
+        <div class="right" @click="!isPlaying ? initPlayer() : pause()">
           <div class="up">
             <img src="../assets/medium17.png" alt="sound" />
           </div>
           <div class="down">
             <img src="../assets/medium27.png" alt="sound" />
-            <button class="play">CLICK</button>
+            <button @click="!isPlaying ? initPlayer() : pause()" class="play">
+              {{ isPlaying ? "PAUSE" : "CLICK" }}
+            </button>
           </div>
         </div>
       </div>
@@ -35,25 +37,33 @@ export default {
   },
   data() {
     return {
-      audioContext: null,
+      isPlaying: false,
+      audio: null,
     };
   },
-  mounted: {},
-
+  mounted() {},
   methods: {
-    audioInit: function () {
-      try {
-        window.AudioContext = window.AudioContext || window.webkitAudioContext;
-        this.audioContext = new AudioContext();
-      } catch (e) {
-        alert("Web Audio API is not supported in this browser");
-      }
+    pause: function (event) {
+      console.log(event);
+      this.isPlaying = false;
+      this.audio.pause();
     },
-    playSound: function (buffer) {
-      var source = context.createBufferSource(); 
-      source.buffer = buffer;
-      source.connect(context.destination); 
-      source.start(0);      
+    initPlayer: function () {
+      this.audio = new Audio(
+        "https://s3-us-west-2.amazonaws.com/s.cdpn.io/858/outfoxing.mp3"
+      );
+      this.audio.crossOrigin = "anonymous";
+      this.startPlaying();
+    },
+    startPlaying: function () {
+      this.initAudioContext();
+    },
+    initAudioContext: function () {
+      let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      let audioSrc = audioCtx.createMediaElementSource(this.audio);
+      audioSrc.connect(audioCtx.destination);
+      this.audio.play();
+      this.isPlaying = true;
     },
   },
   computed: {},
@@ -73,22 +83,53 @@ export default {
   width: 100%;
   min-height: 1080px;
   padding: 9rem;
+  @media (max-width: 1210px) {
+    padding: 9rem 1rem 4rem 1rem;
+  }
 }
 .main {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  transition: all 5ms ease-in-out;
+  @media (max-width: 1210px) {
+    flex-direction: column;
+    min-height: 1080px;
+    
+  }
+  
 }
 
 .left {
   margin-left: 2rem;
+   @media (max-width: 1210px) {
+      padding-top: 4rem;
+      font-size: 3.7rem;
+      letter-spacing: 5.4px;
+      text-align: center;
+    }
+   @media (max-width: 1210px) {
+      padding-top: 4rem;
+      font-size: 3.7rem;
+      letter-spacing: 5.4px;
+    }
   h1 {
     padding-top: 8rem;
     font-size: 4.7rem;
     letter-spacing: 7.4px;
     color: #fff;
     font-size: 600;
+    @media (max-width: 1210px) {
+      padding-top: 4rem;
+      font-size: 3.7rem;
+      letter-spacing: 5.4px;
+    }
+    @media (max-width: 900px) {
+      padding-top: 4rem;
+      font-size: 2.7rem;
+      letter-spacing: 5.4px;
+    }
   }
   p {
     font-size: 32px;
@@ -96,8 +137,14 @@ export default {
     font-size: 3.1rem;
     letter-spacing: 5.1px;
     color: #0b0b0b;
+    @media (max-width: 1210px) {
+      font-size: 2rem;
+      letter-spacing: 3px;
+      
+    }
   }
   button {
+    cursor: pointer;
     outline: 0;
     color: #d1346e;
     border: 0;
@@ -123,19 +170,27 @@ export default {
   justify-content: flex-end;
   align-items: center;
   flex-direction: row;
-  height: 100%;
+  height: 100%;  
   img {
     display: block;
     object-fit: contain;
+    transition: all 5ms ease-in-out;
   }
   .up {
     margin-top: -5rem;
+    cursor: pointer;
   }
   .down {
     position: relative;
     padding-top: 20rem;
     margin-right: -2rem;
+    cursor: pointer;   
+    @media (max-width: 1210px) {
+      padding-top: 0;
+      margin-right: 0;
+    }
     .play {
+      cursor: pointer;
       position: absolute;
       bottom: -20px;
       left: -52px;
@@ -158,23 +213,8 @@ export default {
   }
 }
 
-.caption {
-  font-size: 3.4rem;
-  display: flex;
-  z-index: 10;
-  position: absolute;
-  text-align: left;
-  padding-left: 9vw;
-  padding-right: 9vw;
-  flex-direction: column;
-  top: 60%;
-  transform: translateY(-60%);
-  @media (max-width: 1700px) {
-    top: 80%;
-  }
-}
-
 .try-btn {
+  cursor: pointer;
   position: absolute;
   padding: 1.3rem 4rem;
   top: 93px;
@@ -204,6 +244,7 @@ export default {
 }
 
 .btn {
+  cursor: pointer;
   position: absolute;
   top: 95px;
   outline: 0;
