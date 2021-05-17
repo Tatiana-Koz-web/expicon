@@ -1,6 +1,6 @@
 <template>
   <div class="root">
-    <Head />
+    <Head color="#FFF"/>
     <div class="perks container">
       <h2 class="title">perks</h2>
       <div class="perks-body">

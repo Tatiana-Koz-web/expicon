@@ -1,7 +1,7 @@
 <template>
   <div class="yellow>">
     <div class="root">
-      <Head />
+      <Head color="#FFB33F"/>
        <canvas id="canvas" @mousemove="circleClip" width="1920" height="1080"></canvas>
       <div class="slider" id="slider">       
         <div class="slider-items">

@@ -1,6 +1,6 @@
 <template>
   <div class="root">
-    <Head />
+    <Head color="#1FE1E9"/>
     <div class="container">
       <h2 class="title">PRICING</h2>
       <span class="subtitle"

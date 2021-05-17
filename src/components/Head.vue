@@ -1,11 +1,11 @@
 <template>
   <header class="header">
     <div class="toggle-burger">
-      <button v-on:click="isShow = !isShow">
+      <button>
         <svg
-          version="1.1"
-          id="Layer_1"
+          @click="burgerAnimation()"
           class="burger-icon"
+          :style="[isColor ? '' : { fill: color }]"
           role="img"
           aria-label="burger"
           xmlns="http://www.w3.org/2000/svg"
@@ -21,50 +21,84 @@
           <path d="M0,33v-6.2h56V33H0z" />
         </svg>
       </button>
-      <div class="logo">EXP<span>|</span>CON</div>
+      <div class="logo" :style="[isColor ? '' : { color: color }]">
+        EXP<span>|</span>CON
+      </div>
     </div>
-    <nav class="nav" v-if="isShow">
+    <nav class="nav">
       <div class="bg-circle">
         <svg
-          version="1.1"
-          id="Layer_1"
+          id="burger"
           xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          x="0px"
-          y="0px"
-          width="580px"
-          viewBox="0 0 598 540"
-          style="enable-background: new 0 0 598 540"
-          xml:space="preserve"
+          width="560"
+          height="511"
+          viewBox="0 0 560 511"
+          fill="none"
         >
           <path
-            d="M0,0h502c0,0,103,63,96,235.7C592.6,368.9,450,540,261,540C80.4,540,0,412.2,0,371C0,247.2,0,0,0,0z"
+            fill="#0B0B0B"
+            class="close"
+            d="M0,0.7c0,0,0.2,0.2,0.4,0.2c0.2,0,0.4-0.1,0.4-0.2c0.1-0.1,0.1-0.3,0.1-0.4C0.9,0.1,0.8,0,0.8,0H0V0.7z"
           />
         </svg>
       </div>
       <div class="burger"></div>
       <div class="sun-nav">
-        <p class="color">WHAT IS IT</p>
-        <p>PERKS</p>
-        <p>PRICING</p>
+        <p :style="[isColor ? '' : { color: color }]">WHAT IS IT</p>
+        <p :style="[isColor ? '' : { color: '#fff' }]">PERKS</p>
+        <p :style="[isColor ? '' : { color: '#fff' }]">PRICING</p>
       </div>
     </nav>
   </header>
 </template>
 
 <script>
+import anime from "animejs/lib/anime.es.js";
 export default {
   name: "Slider",
-  props: {
-    msg: String,
-  },
+  props: ["color"],
   data() {
     return {
+      isColor: true,
       isShow: false,
+      timeline: null,
+      openPath: null,
+      closePath: null,
     };
   },
   mounted: function () {},
-  methods: {},
+  methods: {
+    burgerAnimation: function () {
+      this.openPath =
+        "M0,385c0,0,93.9,100.5,233.2,100.5c142.2,0,205.7-66.7,257.7-139c53.5-74.4,60.6-160.8,41.7-244.9C516.6,30.3,479.2,0,479.2,0H0V385z";
+      this.closePath =
+        "M0,0.7c0,0,0.2,0.2,0.4,0.2c0.2,0,0.4-0.1,0.4-0.2c0.1-0.1,0.1-0.3,0.1-0.4C0.9,0.1,0.8,0,0.8,0H0V0.7z";
+      this.timeline = anime.timeline({
+        easing: "easeOutExpo",
+        duration: 400,
+      });
+      this.timeline
+        // .add({
+        //   targets: ".logo",
+        //   color: this.isShow ? color : "#fff",
+        // })        
+        .add({
+          targets: ".close",
+          d: [{ value: this.isShow ? this.openPath : this.closePath }],
+        })
+        .add({
+          targets: ".sun-nav",
+          opacity:  this.isShow ? "1" :  "0",          
+        })
+      if (!this.isShow) {
+        this.isShow = true;
+        this.isColor = true;
+      } else {
+        this.isShow = false;
+        this.isColor = false;
+      }
+    },
+  },
   computed: {},
 };
 </script>
@@ -85,12 +119,12 @@ button {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 20;  
+  z-index: 20;
   .logo {
     font-size: 2.8rem;
     font-weight: 300;
     letter-spacing: 4.8px;
-    color: #fff;    
+    color: #fff;
   }
 }
 .nav {
@@ -104,7 +138,7 @@ button {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;   
+  justify-content: center;
   z-index: 25;
 }
 .burger-icon {
@@ -115,8 +149,9 @@ button {
   margin-right: 2rem;
 }
 .sun-nav {
-  position: absolute;
-  top: 135px;
+  position: absolute; 
+  opacity: 0; 
+  top: 175px;
   left: 83px;
   text-align: left;
   letter-spacing: 4.7px;

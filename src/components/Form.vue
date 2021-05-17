@@ -1,6 +1,6 @@
 <template>
   <div class="root">
-    <Head/>
+    <Head color="#D24848"/>
     <form class="form container">
       <div class="plan">
         <h1 class="form-title">PAYMENT</h1>

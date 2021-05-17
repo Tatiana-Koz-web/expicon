@@ -1,7 +1,7 @@
 <template>
   <div class="red">
     <div class="root">
-      <Head />
+      <Head color="#d34848" />
       <div class="main">
         <div class="left">
           <h1>SUPERIOR SOUND</h1>
@@ -29,17 +29,33 @@
 import Head from "./Head.vue";
 export default {
   name: "RedScreen",
-  props: {
-    msg: String,
-  },
+  props: {},
   components: {
     Head,
   },
   data() {
-    return {};
+    return {
+      audioContext: null,
+    };
   },
+  mounted: {},
 
-  methods: {},
+  methods: {
+    audioInit: function () {
+      try {
+        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+        this.audioContext = new AudioContext();
+      } catch (e) {
+        alert("Web Audio API is not supported in this browser");
+      }
+    },
+    playSound: function (buffer) {
+      var source = context.createBufferSource(); 
+      source.buffer = buffer;
+      source.connect(context.destination); 
+      source.start(0);      
+    },
+  },
   computed: {},
 };
 </script>
