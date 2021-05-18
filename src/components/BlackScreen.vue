@@ -1,6 +1,5 @@
 <template>
   <div class="root">
-    <Head color="#FFF"/>
     <div class="perks container">
       <h2 class="title">perks</h2>
       <div class="perks-body">
@@ -28,16 +27,9 @@
 </template>
 
 <script>
-import Head from "./Head.vue";
-
 export default {
   name: "BlackScreen",
-  props: {
-    msg: String,
-  },
-  components: {
-    Head,
-  },
+  components: {},
   data() {
     return {
       colors: ["#D34848", "#1FE1E9", "#FFB33F"],
@@ -58,9 +50,9 @@ export default {
   width: 100%;
   min-height: 1000px;
   background: #191919;
-  color: #fff;  
+  color: #fff;
   flex-direction: column;
-  
+
   @media (max-width: 1200px) {
     padding-top: 50px;
   }
@@ -71,8 +63,7 @@ export default {
     @media (max-width: 1200px) {
       margin-top: 150px;
       text-align: center;
-    } 
-       
+    }
   }
   .perks-body {
     display: flex;
@@ -107,7 +98,7 @@ export default {
         margin-top: 30px;
       }
       @media (max-width: 1200px) {
-        margin:  4rem 0;
+        margin: 4rem 0;
       }
     }
   }

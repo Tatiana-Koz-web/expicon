@@ -1,7 +1,6 @@
 <template>
   <div class="red">
     <div class="root">
-      <Head color="#d34848" />
       <div class="main">
         <div class="left">
           <h1>SUPERIOR SOUND</h1>
@@ -10,10 +9,10 @@
         </div>
         <div class="right" @click="!isPlaying ? initPlayer() : pause()">
           <div class="up">
-            <img src="../assets/medium17.png" alt="sound" />
+            <img src="../assets/medium17.png" alt="sound" class="sound" />
           </div>
           <div class="down">
-            <img src="../assets/medium27.png" alt="sound" />
+            <img src="../assets/medium27.png" alt="sound" class="sound" />
             <button @click="!isPlaying ? initPlayer() : pause()" class="play">
               {{ isPlaying ? "PAUSE" : "CLICK" }}
             </button>
@@ -28,13 +27,10 @@
 </template>
 
 <script>
-import Head from "./Head.vue";
+
 export default {
   name: "RedScreen",
   props: {},
-  components: {
-    Head,
-  },
   data() {
     return {
       isPlaying: false,
@@ -96,24 +92,22 @@ export default {
   @media (max-width: 1210px) {
     flex-direction: column;
     min-height: 1080px;
-    
   }
-  
 }
 
 .left {
   margin-left: 2rem;
-   @media (max-width: 1210px) {
-      padding-top: 4rem;
-      font-size: 3.7rem;
-      letter-spacing: 5.4px;
-      text-align: center;
-    }
-   @media (max-width: 1210px) {
-      padding-top: 4rem;
-      font-size: 3.7rem;
-      letter-spacing: 5.4px;
-    }
+  @media (max-width: 1210px) {
+    padding-top: 4rem;
+    font-size: 3.7rem;
+    letter-spacing: 5.4px;
+    text-align: center;
+  }
+  @media (max-width: 1210px) {
+    padding-top: 4rem;
+    font-size: 3.7rem;
+    letter-spacing: 5.4px;
+  }
   h1 {
     padding-top: 8rem;
     font-size: 4.7rem;
@@ -140,7 +134,6 @@ export default {
     @media (max-width: 1210px) {
       font-size: 2rem;
       letter-spacing: 3px;
-      
     }
   }
   button {
@@ -170,7 +163,7 @@ export default {
   justify-content: flex-end;
   align-items: center;
   flex-direction: row;
-  height: 100%;  
+  height: 100%;
   img {
     display: block;
     object-fit: contain;
@@ -184,7 +177,7 @@ export default {
     position: relative;
     padding-top: 20rem;
     margin-right: -2rem;
-    cursor: pointer;   
+    cursor: pointer;
     @media (max-width: 1210px) {
       padding-top: 0;
       margin-right: 0;

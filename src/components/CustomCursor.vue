@@ -1,12 +1,11 @@
 <template>
-  <div class="cursor">
-    <span class="cursor-text">{{text}}</span>
+  <div class="cursor" ref="customCursorCircle">
+    <span class="cursor-text" ref="cursorText">{{ text }}</span>
   </div>
 </template>
 
 <script>
 export default {
-  name:"CursorCircle",
   data() {
     return {
       text: "",
@@ -14,18 +13,21 @@ export default {
   },
   methods: {
     cursorFunc(e) {
-      let mouseCursor = document.querySelector(".cursor");
-      let mouseCursorText = document.querySelector(".cursor-text");
-      let texts = document.querySelectorAll("a,span,h1,h2,h3,h4,h5,h6,img");
+      let mouseCursor = this.$refs.customCursorCircle;
+      let mouseCursorText = this.$refs.cursorText;
+      let texts = document.querySelectorAll("a,span,h1,h2,button");
       mouseCursor.style.top = e.pageY + 10 + "px";
       mouseCursor.style.left = e.pageX + 10 + "px";
       texts.forEach((el) => {
         el.addEventListener("mouseover", () => {
-          mouseCursor.classList.add("grow");
-          mouseCursorText.innerText = el.localName;
+          if (el.localName === "h1") {
+            mouseCursorText.innerText = "See more...";
+          }
+          if (el.localName === "button") {
+            mouseCursorText.innerText = "CLICK ME";
+          }
         });
         el.addEventListener("mouseleave", () => {
-          mouseCursor.classList.remove("grow");
           mouseCursorText.innerText = "";
         });
       });
@@ -39,9 +41,9 @@ export default {
 
 <style lang="scss">
 .cursor {
-  width: 4rem;  
-  height: 4rem;
-  border: 1px solid #fff;  
+  width: 8rem;
+  height: 8rem;  
+  border: 2px solid #fff;
   border-radius: 50%;
   position: absolute;
   top: -100px;
@@ -49,7 +51,7 @@ export default {
   transition: all 0.3s ease-in-out;
   transition-property: background, transform;
   transform-origin: 200% -100%;
-  z-index: 35;  
+  z-index: 35;
   backdrop-filter: brightness(100%);
   display: flex;
   align-items: center;
@@ -59,6 +61,6 @@ export default {
   }
 }
 .grow {
-  transform: scale(2);  
+  transform: scale(2);
 }
 </style>

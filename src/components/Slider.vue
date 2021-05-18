@@ -1,6 +1,5 @@
 <template>
   <div class="root">
-    <Head color="#5E33D1"/>
     <div class="slider" id="slider">
       <div class="slider-items">
         <img :src="currentImg" id="sliderImg" />
@@ -27,19 +26,16 @@
 </template>
 
 <script>
-import Head from "./Head.vue";
 import image1 from "../assets/image1.png";
 import image2 from "../assets/image2.png";
 import image3 from "../assets/image3.png";
 import dissImg from "../assets/diss.png";
 import blackImg from "../assets/black.png";
 import anime from "animejs/lib/anime.es.js";
-// import VueSlickCarousel from "vue-slick-carousel";
-// import "vue-slick-carousel/dist/vue-slick-carousel.css";
 import HoverEffect from "hover-effect";
 export default {
   name: "Slider",
-  components: { Head },
+  components: {},
   data() {
     return {
       images: [image1, image2, image3],
@@ -110,6 +106,7 @@ export default {
   .slider-items {
     position: relative;
     .pagination {
+      cursor: pointer;
       position: absolute;
       bottom: 2rem;
       z-index: 35;
@@ -149,14 +146,14 @@ export default {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  color: #fff;  
+  color: #fff;
   .wrap {
     width: 90%;
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    h1 {      
+    h1 {
       font-size: 4rem;
       letter-spacing: 6.5px;
       font-weight: 600;
@@ -166,12 +163,12 @@ export default {
       }
     }
     p {
-      font-size: 2rem;     
+      font-size: 2rem;
       letter-spacing: 3.2px;
-      font-weight: 400; 
-      width: 50%;   
-      padding:  2rem 0;
-      transition: all 5ms ease-in-out;  
+      font-weight: 400;
+      width: 50%;
+      padding: 2rem 0;
+      transition: all 5ms ease-in-out;
       @media (max-width: 1200px) {
         font-size: 1.4rem;
       }
@@ -187,7 +184,7 @@ export default {
   border-radius: 79px;
   font-size: 1.4rem;
   letter-spacing: 2.3px;
-  font-weight: 600;  
+  font-weight: 600;
   padding: 1.6rem 4.1rem;
   background: linear-gradient(
     90deg,
@@ -196,7 +193,7 @@ export default {
     #d34848 55%,
     #ffb33f 75%,
     #1fe1e9 100%
-  );  
+  );
   text-transform: uppercase;
   transition: all 5ms ease-in-out;
   animation: mix 30s linear infinite alternate;

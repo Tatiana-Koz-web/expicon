@@ -1,17 +1,19 @@
 <template>
   <div class="container">
-    <CursorCircle />
-    <Slider/>
-    <RedScreen/>
-    <YellowScreen/>
-    <BlackScreen/>
-    <Footer/>
+    <CustomCursor/>
+    <Head/>
+    <Slider />
+    <RedScreen />
+    <YellowScreen />
+    <BlackScreen />
+    <Footer />
   </div>
 </template>
 
 <script>
-import CursorCircle from "@/components/CursorCircle.vue";
+import CustomCursor from "@/components/CustomCursor.vue";
 import Slider from "@/components/Slider.vue";
+import Head from "@/components/Head.vue";
 import RedScreen from "@/components/RedScreen.vue";
 import YellowScreen from "@/components/YellowScreen.vue";
 import BlackScreen from "@/components/BlackScreen.vue";
@@ -19,7 +21,8 @@ import Footer from "@/components/Footer.vue";
 export default {
   name: "FormRoute",
   components: {
-    CursorCircle,
+    Head,
+    CustomCursor,
     Slider,
     RedScreen,
     YellowScreen,
@@ -29,12 +32,12 @@ export default {
 };
 </script>
 <style lang="scss">
-.container {  
+.container {
   width: 1920px;
-  max-width: 100%; 
+  max-width: 100%;
   margin: 0 auto;
-  display: flex; 
-  flex-direction: column; 
-  justify-content: center;   
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 </style>
