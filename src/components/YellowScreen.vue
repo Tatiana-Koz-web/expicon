@@ -1,16 +1,17 @@
 <template>
   <div class="yellow>">
-    <div class="root">      
-      <canvas id="canvas" width="1920" height="1080" ref="canvas"></canvas>      
-      <div class="caption">
-      <h1 class="title">FRONT ROW SEATS</h1>
-      <p class="description">Experience live versions of your favourite songs.</p>
-      <button class="btn">SEE DEMO</button>
-    </div>
-    <div class="mask"></div>
-    <button class="btn try-btn" @click="$router.push('/pricing').catch(() => {})">
-      TRY IT NOW
-    </button>
+    <div class="root bg" ref="root">
+      <canvas id="canvas" width="1920" height="1080" ref="canvas"></canvas>
+      <div class="main">
+        <div class="caption">
+          <h1>FRONT ROW SEATS</h1>
+          <p>Experience live versions of your favourite songs.</p>
+          <button class="btn">SEE DEMO</button>
+        </div>
+      </div>
+      <button class="try-btn" @click="$router.push('/pricing').catch(() => {})">
+        TRY IT NOW
+      </button>
     </div>
   </div>
 </template>
@@ -18,35 +19,31 @@
 <script>
 import bg from "../assets/yellowBg.png";
 export default {
-  name: "YellowScreen",  
-  components: {    
-  },
+  name: "YellowScreen",
+  components: {},
   data() {
     return {
       canvas: null,
       ctx: null,
-      bgCanvas: bg,      
+      bgCanvas: bg,
       brushReveal: null,
     };
   },
-
   mounted() {
     this.canvas = this.$refs.canvas;
     this.ctx = this.canvas.getContext("2d");
     this.initReveal();
+    window.addEventListener("resize", this.resizeCanvas, false);
     this.canvas.addEventListener("touchmove", this.ontouchmove, false);
     this.canvas.addEventListener("mousemove", this.onmouseover, false);
   },
   methods: {
+    resizeCanvas: function () {
+      this.canvas.width = window.innerWidth;
+      this.initReveal();
+    },
     initBrush: function () {
-      this.brushReveal = (this.canvas.width / 100) * 3;
-      if (this.brushReveal < 50) {
-        this.brushReveal = 50;
-      }
-      // if (window.devicePixelRatio >= 2) {
-      // } else {
-
-      // }
+      this.brushReveal = 30;
     },
     detectLeftButton: function (event) {
       if ("buttons" in event) {
@@ -74,7 +71,6 @@ export default {
         this.drawDot(brushPos.x, brushPos.y);
       }
     },
-
     drawDot: function (mouseX, mouseY) {
       this.ctx.beginPath();
       this.ctx.arc(mouseX, mouseY, this.brushReveal, 0, 2 * Math.PI, true);
@@ -97,6 +93,7 @@ export default {
     },
 
     initReveal: function () {
+      console.log(this.$refs.root);
       const pi2 = Math.PI * 2;
       this.ctx.fillStyle = "#FFB33F";
       this.ctx.rect(0, 0, this.canvas.width, this.canvas.height);
@@ -108,13 +105,17 @@ export default {
         { x: 1810, y: 996, r: 285 },
       ];
       this.ctx.beginPath();
-      for (var i = 0; i < data.length; i++) {
-        const p = data[i],
-          x = p.x,
-          y = p.y,
-          r = p.r;
-        this.ctx.moveTo(x + r, y);
-        this.ctx.arc(x, y, r, 0, pi2);
+      if (window.innerWidth > 775) {
+        for (let i = 0; i < data.length; i++) {
+          const p = data[i],
+            x = p.x,
+            y = p.y,
+            r = p.r;
+          this.ctx.moveTo(x + r, y);
+          this.ctx.arc(x, y, r, 0, pi2);
+        }
+      } else {
+        this.ctx.arc(300, 400, 215, 0, pi2);
       }
       this.ctx.closePath();
       this.ctx.fillStyle = "#000";
@@ -127,74 +128,133 @@ export default {
 
 <style lang="scss" scoped>
 .yellow {
+  max-width: 1920px;
+  margin: 0 auto;
   background-color: #ffb33f;
 }
-.root {
-  position: relative;
-  background-color: inherit;
-  display: flex;
-  justify-content: center;
-  padding: 0;
-  width: 100%;
-  overflow: hidden;
+.bg {
+  background-color: #ffb33f;
+  margin-top: -1px;
 }
-
-.mask {
-  background-image: url(../assets/component.png);
-  background-position: top 32% right 0%;
-  background-repeat: no-repeat;
-  background-size: 147%;
-  min-height: 996px;
-  width: 100%;
-  mask-image: url(../assets/mask.svg);
-  mask-repeat: no-repeat;
-  mask-size: 100%;
-  @media (max-width: 1400px) {
-    mask-image: url(../assets/mask1200.svg);
-  }
-  @media (max-width: 800px) {
-    mask-image: url(../assets/mask900.svg);
-  }
-  @media (max-width: 600px) {
-    background-image: none;
+.main {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  transition: all 5ms ease-in-out;
+  @media (max-width: 1210px) {
+    flex-direction: column;
+    min-height: 1080px;
   }
 }
 
 .caption {
-  font-size: 3.4rem;
-  display: flex;
-  z-index: 10;
   position: absolute;
-  text-align: right;
-  padding-left: 10vw;
-  padding-right: 2vw;
-  flex-direction: column;
-  text-align: left;
-  top: 60%;
-  transform: translateY(-60%);
-  width: 60%;
-  @media (max-width: 600px) {
-    width: 100%;
+  top: 50%;
+  right: 200px;
+  max-width: 45%;
+  transform: translate(0, -50%);
+  @media (max-width: 1870px) {
+    right: 100px;
+  }
+  @media (max-width: 1610px) {
+    max-width: 35%;
+    right: 20px;
+  }
+  @media (max-width: 1250px) {
+    right: 40px;
+    top: 80%;
+    max-width: 100%;
+    padding: 0 5rem;
+  }
+  @media (max-width: 770px) {
+    right: 40px;
+    top: 70%;
+    max-width: 100%;
+    padding: 0 5rem;
+  }
+  @media (max-width: 480px) {
+    right: 0;
+    top: 70%;
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+  h1 {
+    padding-top: 8rem;
+    font-size: 4.7rem;
+    letter-spacing: 7.4px;
+    color: #fff;
+    font-size: 600;
+    @media (max-width: 1610px) {
+      padding-top: 4rem;
+      font-size: 3.7rem;
+      letter-spacing: 5.4px;
+    }
+    @media (max-width: 900px) {
+      padding-top: 4rem;
+      font-size: 2.7rem;
+      letter-spacing: 5.4px;
+    }
+  }
+  p {
+    font-size: 32px;
+    padding: 1rem 0 2rem;
+    font-size: 3.1rem;
+    letter-spacing: 5.1px;
+    color: #0b0b0b;
+    @media (max-width: 1300px) {
+      font-size: 2rem;
+      letter-spacing: 3px;
+    }
+  }
+  button {
+    cursor: pointer;
+    outline: 0;
+    color: #ffb33f;
+    border: 0;
+    letter-spacing: 2.3px;
+    border-radius: 79px;
+    font-size: 1.4rem;
+    font-weight: 600;
+    padding: 1.7rem 6.3rem;
+    background-color: #fff;
+    text-transform: uppercase;
+    transition: all 5ms ease-in-out;
+    animation: mix 25s linear infinite alternate;
+    @media (max-width: 540px) {
+      padding: 1rem 4rem;
+    }
+    &:hover,
+    &:focus {
+      color: #fff;
+      background: radial-gradient(#4b0afd 5%, #fa0404 90%);
+    }
   }
 }
-.title {
-  font-size: 4rem;
-  letter-spacing: 7.4px;
-  @media (max-width: 1100px) {
-    font-size: 3rem;
+.try-btn {
+  cursor: pointer;
+  position: absolute;
+  padding: 1.3rem 4rem;
+  top: 93px;
+  right: 74px;
+  outline: 0;
+  color: #ffb33f;
+  border: 0;
+  letter-spacing: 1.8px;
+  border-radius: 79px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background-color: #fff;
+  text-transform: uppercase;
+  transition: all 5ms ease-in-out;
+  animation: mix 25s linear infinite alternate;
+  &:hover,
+  &:focus {
+    color: #fff;
+    background: radial-gradient(#4b0afd 5%, #fa0404 90%);
   }
 }
-.description {
-  font-size: 32px;
-  padding-top: 2rem;
-  font-size: 2.8rem;
-  letter-spacing: 5.1px;
-  color: #0b0b0b;
-  max-width: 75%;
-  @media (max-width: 1100px) {
-    font-size: 1.5rem;
-  }
-}
+
 .play {
   position: absolute;
   bottom: 167px;
@@ -208,6 +268,7 @@ export default {
   font-size: 1.5rem;
   letter-spacing: 2.7px;
   z-index: 20;
+  transition: all 5ms ease-in-out;
 }
 
 @keyframes mix {
@@ -216,75 +277,21 @@ export default {
   }
 }
 
-.btn {
-  outline: 0;
-  color: #ffb33f;
-  border: 0;
-  border-radius: 79px;
-  font-size: 1.2rem;
-  font-weight: 700;
-  max-width: 350px;
-  padding: 1.8rem 3rem;
-  max-width: 320px;
-  margin: 3rem 0;
-  background-color: #fff;
-  text-transform: uppercase;
-  transition: all 5ms ease-in-out;
-  animation: mix 25s linear infinite alternate;
-  letter-spacing: 2.3px;
-  &:hover,
-  &:focus {
-    color: #fff;
-    background: radial-gradient(#4b0afd 5%, #fa0404 90%);
-  }
-}
-
-.try-btn {
-  position: absolute;
-  top: 42px;
-  right: 87px;
-  @media (max-width: 800px) {
-    top: 60px;
-    right: 87px;
-  }
-  @media (max-width: 600px) {
-    top: 20%;
-    margin: 0 auto;
-  }
-}
-.slider {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  .slider-items {
-    position: relative;
-    button {
-      border: 1px solid #fff;
-      border-radius: 50%;
-      width: 1rem;
-      height: 1rem;
-      margin: 0.3rem;
-      background-color: transparent;
-      &:hover {
-        background-color: #fff;
-      }
-    }
-    img {
-      display: block;
-      width: 100%;
-      height: 1080px;
-      object-fit: cover;
-    }
-  }
-}
 #canvas {
   background-size: cover;
+  overflow: hidden;
   background-image: url("../assets/yellowBg.png");
-  width: 100%;
-  background-position: center top;
+  position: absolute;
+  top: 0;
+  left: 0;
   background-repeat: no-repeat;
   cursor: crosshair;
+  transition: all 5ms ease-in-out;
   cursor: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/circular-cursor.png) 53 53,
     crosshair;
+  @media (max-width: 770px) {
+    background-size: 80%;
+    background-position: bottom 73px right 448px;
+  }
 }
 </style>

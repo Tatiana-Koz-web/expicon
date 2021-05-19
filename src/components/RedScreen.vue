@@ -7,14 +7,15 @@
           <p>Experience live versions of your favourite songs.</p>
           <button>SEE DEMO</button>
         </div>
-        <div class="right" @click="!isPlaying ? initPlayer() : pause()">
+        <audio :src="audio" ref="audio" />
+        <div class="right" @click="isPlaying ? initPlayer : pause">
           <div class="up">
             <img src="../assets/medium17.png" alt="sound" class="sound" />
           </div>
           <div class="down">
             <img src="../assets/medium27.png" alt="sound" class="sound" />
-            <button @click="!isPlaying ? initPlayer() : pause()" class="play">
-              {{ isPlaying ? "PAUSE" : "CLICK" }}
+            <button @click="isPlaying ? initPlayer() : pause()" class="play">
+              {{ isPlaying ? "CLICK" : "PAUSE" }}
             </button>
           </div>
         </div>
@@ -27,21 +28,20 @@
 </template>
 
 <script>
-
 export default {
   name: "RedScreen",
   props: {},
   data() {
     return {
-      isPlaying: false,
+      isPlaying: true,
       audio: null,
+      audioCtx: null,
     };
   },
   mounted() {},
   methods: {
-    pause: function (event) {
-      console.log(event);
-      this.isPlaying = false;
+    pause: function () {
+      this.isPlaying = true;
       this.audio.pause();
     },
     initPlayer: function () {
@@ -50,16 +50,24 @@ export default {
       );
       this.audio.crossOrigin = "anonymous";
       this.startPlaying();
+      let playPromise = this.audio.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            this.isPlaying = false;
+          })
+          .catch(() => {
+            this.isPlaying = true;
+          });
+      }
     },
     startPlaying: function () {
       this.initAudioContext();
     },
     initAudioContext: function () {
-      let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      let audioSrc = audioCtx.createMediaElementSource(this.audio);
-      audioSrc.connect(audioCtx.destination);
-      this.audio.play();
-      this.isPlaying = true;
+      this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      this.audioSrc = this.audioCtx.createMediaElementSource(this.audio);
+      this.audioSrc.connect(this.audioCtx.destination);
     },
   },
   computed: {},
@@ -68,21 +76,11 @@ export default {
 
 <style lang="scss" scoped>
 .red {
+  max-width: 1920px;
+  margin: 0 auto;
   background-color: #d34848;
 }
-.root {
-  position: relative;
-  background-color: inherit;
-  display: flex;
-  justify-content: center;
-  padding: 0;
-  width: 100%;
-  min-height: 1080px;
-  padding: 9rem;
-  @media (max-width: 1210px) {
-    padding: 9rem 1rem 4rem 1rem;
-  }
-}
+
 .main {
   display: flex;
   flex-direction: row;
@@ -114,11 +112,11 @@ export default {
     letter-spacing: 7.4px;
     color: #fff;
     font-size: 600;
-    @media (max-width: 1210px) {
+    @media (max-width: 1610px) {
       padding-top: 4rem;
       font-size: 3.7rem;
       letter-spacing: 5.4px;
-    }
+    }    
     @media (max-width: 900px) {
       padding-top: 4rem;
       font-size: 2.7rem;
@@ -127,14 +125,15 @@ export default {
   }
   p {
     font-size: 32px;
-    padding: 3rem 0;
+    padding: 1rem 0 2rem;
     font-size: 3.1rem;
     letter-spacing: 5.1px;
     color: #0b0b0b;
-    @media (max-width: 1210px) {
+    @media (max-width: 1300px) {
       font-size: 2rem;
       letter-spacing: 3px;
     }
+    
   }
   button {
     cursor: pointer;
@@ -150,6 +149,9 @@ export default {
     text-transform: uppercase;
     transition: all 5ms ease-in-out;
     animation: mix 25s linear infinite alternate;
+    @media (max-width: 540px) {
+      padding: 1rem 4rem;
+    }
     &:hover,
     &:focus {
       color: #fff;
@@ -164,14 +166,33 @@ export default {
   align-items: center;
   flex-direction: row;
   height: 100%;
+  transition: all 5ms ease-in-out;
+  @media (max-width: 1210px) {
+    margin-top: 3rem;
+  }
   img {
     display: block;
     object-fit: contain;
-    transition: all 5ms ease-in-out;
+
+    @media (max-width: 700px) {
+      transition: all 5ms ease-in-out;
+      max-width: 300px;
+    }
+    @media (max-width: 600px) {
+      transition: all 5ms ease-in-out;
+      max-width: 200px;
+    }
+    @media (max-width: 500px) {
+      transition: all 5ms ease-in-out;
+      max-width: 150px;
+    }
   }
   .up {
     margin-top: -5rem;
     cursor: pointer;
+    @media (max-width: 1210px) {
+      margin-top: 0;
+    }
   }
   .down {
     position: relative;
@@ -201,6 +222,16 @@ export default {
       &:focus {
         background-color: #fff;
         color: #d1346e;
+      }
+      @media (max-width: 1210px) {
+        margin-top: 0;
+        left: -83px;
+      }
+      @media (max-width: 450px) {
+        width: 100px;
+        height: 100px;
+        font-size: 1.3rem;
+        left: -55px;
       }
     }
   }

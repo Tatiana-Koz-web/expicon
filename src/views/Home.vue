@@ -1,7 +1,7 @@
 <template>
-  <div class="container">
-    <CustomCursor/>
-    <Head/>
+  <div class="container-fluid">
+    <CustomCursor />
+    <Head />
     <Slider />
     <RedScreen />
     <YellowScreen />
@@ -32,12 +32,25 @@ export default {
 };
 </script>
 <style lang="scss">
-.container {
-  width: 1920px;
-  max-width: 100%;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.root {
+  position: relative;
+  background-color: inherit; 
+  margin:0 auto;  
+  padding-top: 0;
+  padding: 9rem;    
+  max-width: 1920px;  
+  min-height: 1080px;
+  transition: all 5ms ease-in-out;   
+  @media (max-width: 1200px) {
+    max-width: 1170px;
+  }  
+  @media (max-width: 768px) {
+    max-width: 750px;
+    padding: 0;   
+  }
+}
+.container-fluid {
+  overflow:hidden;
+  max-width: 100%;  
 }
 </style>

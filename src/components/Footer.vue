@@ -1,4 +1,5 @@
 <template>
+<div class="root">
   <footer class="footer">
     <div class="container footer">
       <a href="##" class="suport">       
@@ -26,12 +27,8 @@
       >
     </div>
   </footer>
+   </div>
 </template>
-
-<script>
-export default {};
-</script>
-
 <style lang="scss">
 .footer {  
   min-height: 500px;

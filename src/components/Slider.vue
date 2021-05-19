@@ -1,8 +1,11 @@
 <template>
-  <div class="root">
+  <div class="rootSlider">
     <div class="slider" id="slider">
       <div class="slider-items">
-        <img :src="currentImg" id="sliderImg" />
+        <picture>
+          <source media="(min-width: 900px)" :srcset="currentImg.image2x" />
+          <img :src="currentImg.image" id="sliderImg" alt="sliderImg" />
+        </picture>
         <div class="pagination">
           <button @click="next(0)"></button>
           <button @click="next(1)"></button>
@@ -29,19 +32,20 @@
 import image1 from "../assets/image1.png";
 import image2 from "../assets/image2.png";
 import image3 from "../assets/image3.png";
-import dissImg from "../assets/diss.png";
-import blackImg from "../assets/black.png";
+import image1_2x from "../assets/image1_2x.png";
+import image2_2x from "../assets/image2_2x.png";
+import image3_2x from "../assets/image3_2x.png";
 import anime from "animejs/lib/anime.es.js";
-import HoverEffect from "hover-effect";
 export default {
   name: "Slider",
   components: {},
   data() {
     return {
-      images: [image1, image2, image3],
-      hoverDistort: null,
-      blackImg: blackImg,
-      diss: dissImg,
+      images: [
+        { image: image1, image2x: image1_2x },
+        { image: image2, image2x: image2_2x },
+        { image: image3, image2x: image3_2x },
+      ],
       toggle: false,
       timeline: null,
       currentIndex: 0,
@@ -56,21 +60,11 @@ export default {
       return this.images[Math.abs(this.currentIndex) % this.images.length];
     },
   },
-
   methods: {
     startSlide: function () {
       this.timer = setInterval(() => {
         this.next();
       }, 4000);
-    },
-    hover: function (i) {
-      this.hoverDistort = new HoverEffect({
-        parent: document.getElementById("slider"),
-        intensity: 0.2,
-        image1: this.images[i],
-        image2: this.blackImg,
-        displacementImage: this.diss,
-      });
     },
     next: function () {
       this.currentIndex += 1;
@@ -84,7 +78,7 @@ export default {
         targets: ".mask",
         src: [
           {
-            value: this.images[i],
+            value: this.images[i].image,
           },
         ],
       });
@@ -93,15 +87,26 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.root {
+.rootSlider{
   position: relative;
-  padding: 0;
-  width: 100%;
-  height: 1080px;
+  background-color: inherit; 
+  margin:0 auto;  
+  max-width: 1920px;  
+  min-height: 1080px;
+  transition: all 5ms ease-in-out;   
+  @media (max-width: 1200px) {
+    max-width: 1170px;
+  }
+  @media (max-width: 992px) {
+    max-width: 970px;
+  }
+  @media (max-width: 768px) {
+    max-width: 750px;
+  }
 }
 .slider {
   position: relative;
-  width: 100%;
+  max-width: 100%;
   overflow: hidden;
   .slider-items {
     position: relative;
@@ -116,10 +121,15 @@ export default {
       button {
         border: 1px solid #fff;
         border-radius: 50%;
-        width: 1rem;
-        height: 1rem;
+        width: 1.5rem;
+        height: 1.5rem;
         margin: 0.3rem;
         background-color: transparent;
+        transition: all 5ms ease-in-out;
+        @media (max-width: 1920px) {
+          width: 1rem;
+          height: 1rem;
+        }
         &:hover {
           background-color: #fff;
         }
@@ -129,8 +139,11 @@ export default {
       display: block;
       width: 100%;
       filter: brightness(60%);
-      height: 1080px;
-      object-fit: cover;
+      object-fit: contain;
+      @media (max-width: 1920px) {
+        min-height: 1080px;
+        object-fit: cover;
+      }
     }
   }
 }
@@ -147,12 +160,15 @@ export default {
   align-items: center;
   text-align: center;
   color: #fff;
+  transition: all 5ms ease-in-out;  
   .wrap {
-    width: 90%;
+    width: 100%;
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    padding: 0 2rem;
+    transition: all 5ms ease-in-out;
     h1 {
       font-size: 4rem;
       letter-spacing: 6.5px;
@@ -160,6 +176,9 @@ export default {
       transition: all 5ms ease-in-out;
       @media (max-width: 1200px) {
         font-size: 3rem;
+      }
+      @media (max-width: 500px) {
+        font-size: 2rem;
       }
     }
     p {
@@ -172,10 +191,13 @@ export default {
       @media (max-width: 1200px) {
         font-size: 1.4rem;
       }
+      @media (max-width: 500px) {
+        font-size: 1rem;
+        width: 100%;
+      }
     }
   }
 }
-
 .try-btn {
   cursor: pointer;
   outline: 0;
@@ -210,6 +232,7 @@ export default {
     );
   }
 }
+
 @keyframes mix {
   to {
     background-position: 50vw;

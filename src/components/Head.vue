@@ -190,7 +190,6 @@ export default {
 .classE {
   color: #000 !important;
 }
-
 button {
   border: none;
   overflow: visible;
@@ -221,12 +220,17 @@ button {
 .toggle-burger {
   position: absolute;
   top: 100px;
-  left: 84px;
+  left: 109px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   z-index: 25;
+  @media (max-width: 450px) {
+    flex-direction: column-reverse;
+    top: 100px;
+    left: 25%;
+  }
 }
 .burger-icon {
   fill: #fff;
@@ -234,6 +238,10 @@ button {
   width: 3.5rem;
   height: 2.1rem;
   margin-right: 2rem;
+  @media (max-width: 450px) {
+    margin-right: 0;
+    margin-top: 3rem;
+  }
 }
 .sun-nav {
   position: absolute;
@@ -242,10 +250,18 @@ button {
   text-align: left;
   letter-spacing: 4.7px;
   font-weight: 600;
-  p {
+  .NavItem {
     margin: 1rem 0;
     opacity: 0;
     transform: translateY(20);
+    font-size: 2.9rem;    
+    @media (max-width: 450px) {
+      font-size: 1.9rem;
+    }
+  }
+  @media (max-width: 450px) {
+    top: 257px;
+    left: 83px;    
   }
 }
 .color {
