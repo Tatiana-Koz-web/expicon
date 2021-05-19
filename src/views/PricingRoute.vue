@@ -1,12 +1,9 @@
 <template>
-  <Pricing />
+  <div>Pricing</div>
 </template>
 <script>
-import Pricing from "../components/Pricing.vue";
 export default {
   name: "PricingRoute",
-  components: {
-    Pricing,
-  },
+  components: {},
 };
 </script>
