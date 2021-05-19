@@ -73,10 +73,10 @@ export default {
   flex-direction: column;
   @media (max-width: 1200px) {
     max-width: 1170px;
-  }  
+  }
   @media (max-width: 768px) {
     max-width: 750px;
-    padding: 3rem;   
+    padding: 3rem;
   }
 }
 .items {
@@ -84,17 +84,17 @@ export default {
   grid-template-columns: 33% 33% 33%;
   grid-template-rows: auto;
   gap: 70px;
-  margin-top: 2rem;
+  margin-top: 3.5rem;
   @media (max-width: 1900px) {
     gap: 30px;
   }
   @media (max-width: 1150px) {
-   grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
   }
   .line {
     width: 20%;
     height: 2px;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
   }
   h3 {
     max-width: 70%;
@@ -142,8 +142,8 @@ export default {
 .try-btn {
   cursor: pointer;
   position: absolute;
-  top: 93px;
-  right: 74px;
+  top: 66px;
+  right: 79px;
   outline: 0;
   color: #fff;
   border: 0;

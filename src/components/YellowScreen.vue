@@ -150,10 +150,10 @@ export default {
 
 .caption {
   position: absolute;
-  top: 50%;
+  top: 40%;
   right: 200px;
   max-width: 45%;
-  transform: translate(0, -50%);
+  transform: translate(0, -40%);
   @media (max-width: 1870px) {
     right: 100px;
   }
@@ -235,8 +235,8 @@ export default {
   cursor: pointer;
   position: absolute;
   padding: 1.3rem 4rem;
-  top: 93px;
-  right: 74px;
+  top: 66px;
+  right: 79px;
   outline: 0;
   color: #ffb33f;
   border: 0;

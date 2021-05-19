@@ -241,8 +241,8 @@ export default {
   cursor: pointer;
   position: absolute;
   padding: 1.3rem 4rem;
-  top: 93px;
-  right: 74px;
+  top: 95px;
+  right: 79px;
   outline: 0;
   color: #d1346e;
   border: 0;

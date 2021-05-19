@@ -3,7 +3,7 @@
     <div class="slider" id="slider">
       <div class="slider-items">
         <picture>
-          <source media="(min-width: 900px)" :srcset="currentImg.image2x" />
+          <source media="(min-width: 1922px)" :srcset="currentImg.image2x" />
           <img :src="currentImg.image" id="sliderImg" alt="sliderImg" />
         </picture>
         <div class="pagination">
@@ -64,7 +64,7 @@ export default {
     startSlide: function () {
       this.timer = setInterval(() => {
         this.next();
-      }, 4000);
+      }, 1000);
     },
     next: function () {
       this.currentIndex += 1;
